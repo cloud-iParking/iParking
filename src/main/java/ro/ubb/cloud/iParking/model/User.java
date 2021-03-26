@@ -31,15 +31,12 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "car_number")
     private String carNumber;
 
-    @Column(name = "isAdmin")
+    @Column(name = "is_admin")
     private Boolean isAdmin;
 
-    @Column(name = "isBlocked")
+    @Column(name = "is_blocked")
     private Boolean isBlocked;
 }
