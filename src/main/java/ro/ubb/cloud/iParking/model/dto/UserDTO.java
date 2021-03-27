@@ -1,8 +1,12 @@
-package ro.ubb.cloud.iParking.service.dto;
+package ro.ubb.cloud.iParking.model.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserDTO {
 
     private String lastName;
@@ -15,7 +19,4 @@ public class UserDTO {
     private Boolean isAdmin;
     private Boolean isBlocked;
 
-    public UserDTO() {
-
-    }
 }

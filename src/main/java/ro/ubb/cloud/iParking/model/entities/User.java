@@ -1,4 +1,4 @@
-package ro.ubb.cloud.iParking.model;
+package ro.ubb.cloud.iParking.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +30,9 @@ public class User {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "car_number")
     private String carNumber;

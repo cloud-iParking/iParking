@@ -3,8 +3,8 @@ package ro.ubb.cloud.iParking.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.ubb.cloud.iParking.model.dto.UserDTO;
 import ro.ubb.cloud.iParking.service.UserService;
-import ro.ubb.cloud.iParking.service.dto.UserDTO;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;

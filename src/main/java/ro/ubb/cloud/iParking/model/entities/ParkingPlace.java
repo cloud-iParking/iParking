@@ -1,4 +1,4 @@
-package ro.ubb.cloud.iParking.model;
+package ro.ubb.cloud.iParking.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;
