@@ -28,7 +28,7 @@ public class ParkingPlace {
     @Column(name = "available_until")
     private Timestamp availableUntil;
 
-    @Column(name = "isFree")
+    @Column(name = "is_free")
     private Boolean isFree;
 
     @OneToOne
