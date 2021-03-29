@@ -1,13 +1,15 @@
 package ro.ubb.cloud.iParking.model.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "parking_place")
 public class ParkingPlace {
@@ -20,10 +22,10 @@ public class ParkingPlace {
     @Column(name = "number")
     private Integer number;
 
-    @Column(name = "availableFrom")
+    @Column(name = "available_from")
     private Timestamp availableFrom;
 
-    @Column(name = "availableUntil")
+    @Column(name = "available_until")
     private Timestamp availableUntil;
 
     @Column(name = "isFree")

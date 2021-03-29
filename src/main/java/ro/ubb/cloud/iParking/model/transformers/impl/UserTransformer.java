@@ -13,6 +13,7 @@ public class UserTransformer implements Transformer<User, UserDTO> {
     public UserDTO toDTO(User user) {
         UserDTO userDTO = new UserDTO();
 
+        userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setUsername(user.getUsername());
@@ -30,6 +31,7 @@ public class UserTransformer implements Transformer<User, UserDTO> {
     public User toEntity(UserDTO userDTO) {
         User user = new User();
 
+        user.setId(userDTO.getId());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
