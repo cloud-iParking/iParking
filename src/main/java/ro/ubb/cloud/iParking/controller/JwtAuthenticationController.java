@@ -32,7 +32,7 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest) throws Exception {
+    public ResponseEntity<LoginDTO> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -40,8 +40,12 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
+        LoginDTO loginDTO = userDetailsService.getLoginDTO(authenticationRequest.getUsername());
+        loginDTO.setToken(token);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        JwtResponse response = new JwtResponse(loginDTO);
+
+        return ResponseEntity.ok(loginDTO);
     }
 
     private void authenticate(String username, String password) throws Exception {
