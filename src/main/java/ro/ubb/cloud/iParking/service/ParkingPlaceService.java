@@ -7,8 +7,6 @@ import ro.ubb.cloud.iParking.model.entities.ParkingPlace;
 import ro.ubb.cloud.iParking.model.entities.Street;
 import ro.ubb.cloud.iParking.model.entities.User;
 import ro.ubb.cloud.iParking.model.transformers.impl.ParkingPlaceTransformer;
-import ro.ubb.cloud.iParking.model.transformers.impl.StreetTransformer;
-import ro.ubb.cloud.iParking.model.transformers.impl.UserTransformer;
 import ro.ubb.cloud.iParking.repo.ParkingPlaceRepository;
 import ro.ubb.cloud.iParking.repo.StreetRepository;
 
@@ -44,6 +42,13 @@ public class ParkingPlaceService {
                 .findAllByStreetAndAvailableFromLessThanAndAvailableUntilGreaterThan(street, currentTimeAsTimestamp, currentTimeAsTimestamp);
 
         return availableParkingPlaces.stream().map(parkingPlaceTransformer::toDTO).collect(Collectors.toList());
+    }
+
+    public List<ParkingPlaceDTO> getAllParkingPlacesOfGivenUser(String username) {
+        User user = userService.getUserByUsername(username).orElseThrow(() -> new RuntimeException("No such user."));
+        List<ParkingPlace> parkingPlacesOwnedByGivenUser = parkingPlaceRepository.findAllByUser(user);
+
+        return parkingPlacesOwnedByGivenUser.stream().map(parkingPlaceTransformer::toDTO).collect(Collectors.toList());
     }
 
     public ParkingPlaceDTO addNewParkingPlace(ParkingPlaceDTO parkingPlaceDTO) {

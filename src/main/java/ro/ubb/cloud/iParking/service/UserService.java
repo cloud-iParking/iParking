@@ -8,6 +8,7 @@ import ro.ubb.cloud.iParking.model.transformers.impl.UserTransformer;
 import ro.ubb.cloud.iParking.repo.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,14 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
         List<User> userList = userRepository.findAll();
         return userList.stream().map(userTransformer::toDTO).collect(Collectors.toList());
+    }
+
+    public Optional<User> getUserById(Integer userId) {
+        return this.userRepository.findById(userId);
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 
     public UserDTO save(UserDTO userDTO) {

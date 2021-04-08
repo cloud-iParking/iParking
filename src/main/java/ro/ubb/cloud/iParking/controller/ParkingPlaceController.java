@@ -40,6 +40,15 @@ public class ParkingPlaceController {
         return new ResponseEntity<>(parkingPlaceService.getAllAvailableParkingPlaces(street, currentTime), HttpStatus.OK);
     }
 
+    @GetMapping("/ownedBy/")
+    public ResponseEntity<List<ParkingPlaceDTO>> getAllParkingPlacesOwnedByGivenUser(@RequestParam String username) {
+        try {
+            return new ResponseEntity<>(parkingPlaceService.getAllParkingPlacesOfGivenUser(username), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<ParkingPlaceDTO> addNewParkingPlace(@RequestBody ParkingPlaceDTO parkingPlaceDTO) {
         try {
