@@ -79,4 +79,21 @@ public class ParkingPlaceService {
         ParkingPlace parkingPlaceToDelete = parkingPlaceRepository.findById(id).orElseThrow(() -> new RuntimeException("No such parking place."));
         parkingPlaceRepository.delete(parkingPlaceToDelete);
     }
+
+    public ParkingPlaceDTO changeParkingPlaceStatus(Integer id) {
+
+        ParkingPlace parkingPlaceFromDB = parkingPlaceRepository.findById(id).orElseThrow(() -> new RuntimeException("No such parking place."));
+
+        parkingPlaceFromDB.setIsFree(!parkingPlaceFromDB.getIsFree());
+
+        parkingPlaceFromDB = parkingPlaceRepository.save(parkingPlaceFromDB);
+        return parkingPlaceTransformer.toDTO(parkingPlaceFromDB);
+    }
+
+    public boolean checkAvailability(Integer id) {
+
+        ParkingPlace parkingPlaceFromDB = parkingPlaceRepository.findById(id).orElseThrow(() -> new RuntimeException("No such parking place."));
+
+        return parkingPlaceFromDB.getIsFree();
+    }
 }
