@@ -23,6 +23,7 @@ public class UserTransformer implements Transformer<User, UserDTO> {
         userDTO.setCarNumber(user.getCarNumber());
         userDTO.setIsAdmin(user.getIsAdmin());
         userDTO.setIsBlocked(user.getIsBlocked());
+        userDTO.setReportNumber(user.getReportNumber());
 
         return userDTO;
     }
@@ -41,6 +42,7 @@ public class UserTransformer implements Transformer<User, UserDTO> {
         user.setCarNumber(userDTO.getCarNumber());
         user.setIsAdmin(userDTO.getIsAdmin());
         user.setIsBlocked(userDTO.getIsBlocked());
+        user.setReportNumber(userDTO.getReportNumber());
 
         return user;
     }
