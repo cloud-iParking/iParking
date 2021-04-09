@@ -2,11 +2,18 @@ package ro.ubb.cloud.iParking.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ro.ubb.cloud.iParking.model.dto.ReportDTO;
+import ro.ubb.cloud.iParking.model.dto.ReservationDTO;
 import ro.ubb.cloud.iParking.model.dto.UserDTO;
+import ro.ubb.cloud.iParking.model.entities.Reservation;
 import ro.ubb.cloud.iParking.model.entities.User;
+import ro.ubb.cloud.iParking.model.transformers.impl.ReportTransformer;
+import ro.ubb.cloud.iParking.model.transformers.impl.ReservationTransformer;
 import ro.ubb.cloud.iParking.model.transformers.impl.UserTransformer;
+import ro.ubb.cloud.iParking.repo.ReservationRepository;
 import ro.ubb.cloud.iParking.repo.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +26,15 @@ public class UserService {
 
     @Autowired
     private UserTransformer userTransformer;
+
+    @Autowired
+    private ReportTransformer reportTransformer;
+
+    @Autowired
+    private ReservationTransformer reservationTransformer;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     public List<UserDTO> getAllUsers() {
         List<User> userList = userRepository.findAll();
@@ -44,5 +60,43 @@ public class UserService {
         } else {
             return userRepository.save(userTransformer.toEntity(userDTO));
         }
+    }
+
+    public void reportLoaner(ReportDTO reportDTO) {
+//        Report report = reportTransformer.toEntity(reportDTO);
+//        User loaner = report.getReservation().getLoaner();
+//        loaner.getReports().add(report);
+//        userRepository.save(loaner);
+    }
+
+    public void reportBorrower(ReportDTO reportDTO) {
+//        Report report = reportTransformer.toEntity(reportDTO);
+//        User borrower = report.getReservation().getParkingPlace().getUser();
+//        borrower.getReports().add(report);
+//        userRepository.save(borrower);
+    }
+
+    public List<ReservationDTO> getReservationsMade(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            ArrayList<ReservationDTO> reservations = new ArrayList<>();
+            for (Reservation reservation : reservationRepository.getAllReservationsMadeByUserId(userId)) {
+                reservations.add(reservationTransformer.toDTO(reservation));
+            }
+            return reservations;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<ReservationDTO> getReservationsReceived(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            ArrayList<ReservationDTO> reservations = new ArrayList<>();
+            for (Reservation reservation : reservationRepository.getAllReservationsReceivedByUserId(userId)) {
+                reservations.add(reservationTransformer.toDTO(reservation));
+            }
+            return reservations;
+        }
+        return new ArrayList<>();
     }
 }
