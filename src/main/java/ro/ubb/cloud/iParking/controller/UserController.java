@@ -1,8 +1,11 @@
 package ro.ubb.cloud.iParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.ubb.cloud.iParking.model.dto.ReportDTO;
+import ro.ubb.cloud.iParking.model.dto.ReservationDTO;
 import ro.ubb.cloud.iParking.model.dto.UserDTO;
 import ro.ubb.cloud.iParking.service.UserService;
 
@@ -36,5 +39,43 @@ public class UserController {
             return ResponseEntity.ok().body("User saved!");
         }
         return ResponseEntity.badRequest().body("User save failed!");
+    }
+
+    @PostMapping("/reportLoaner")
+    public ResponseEntity<UserDTO> reportLoaner(@RequestBody ReportDTO report) {
+        try {
+            userService.reportLoaner(report);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/reportBorrower")
+    public ResponseEntity<UserDTO> reportBorrower(@RequestBody ReportDTO report) {
+        try {
+            userService.reportBorrower(report);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}/reservations/made")
+    public ResponseEntity<List<ReservationDTO>> getReservationsMade(@PathVariable(name = "id") int id) {
+        try {
+            return ResponseEntity.ok(userService.getReservationsMade(id));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}/reservations/received")
+    public ResponseEntity<List<ReservationDTO>> getReservationsReceived(@PathVariable(name = "id") int id) {
+        try {
+            return ResponseEntity.ok(userService.getReservationsReceived(id));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
