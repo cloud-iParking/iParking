@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import ro.ubb.cloud.iParking.model.dto.ReportDTO;
 import ro.ubb.cloud.iParking.model.dto.ReservationDTO;
 import ro.ubb.cloud.iParking.model.dto.UserDTO;
+import ro.ubb.cloud.iParking.model.entities.Report;
 import ro.ubb.cloud.iParking.model.entities.Reservation;
 import ro.ubb.cloud.iParking.model.entities.User;
 import ro.ubb.cloud.iParking.model.transformers.impl.ReportTransformer;
 import ro.ubb.cloud.iParking.model.transformers.impl.ReservationTransformer;
 import ro.ubb.cloud.iParking.model.transformers.impl.UserTransformer;
+import ro.ubb.cloud.iParking.repo.ReportRepository;
 import ro.ubb.cloud.iParking.repo.ReservationRepository;
 import ro.ubb.cloud.iParking.repo.UserRepository;
 
@@ -29,6 +31,9 @@ public class UserService {
 
     @Autowired
     private ReportTransformer reportTransformer;
+
+    @Autowired
+    private ReportRepository reportRepository;
 
     @Autowired
     private ReservationTransformer reservationTransformer;
@@ -63,17 +68,32 @@ public class UserService {
     }
 
     public void reportLoaner(ReportDTO reportDTO) {
-//        Report report = reportTransformer.toEntity(reportDTO);
-//        User loaner = report.getReservation().getLoaner();
-//        loaner.getReports().add(report);
-//        userRepository.save(loaner);
+
+        Optional<User> optionalReportedUser = userRepository.findById(reportDTO.getReservation().getLoaner().getId());
+        if (optionalReportedUser.isPresent()) {
+            reportRepository.save(reportTransformer.toEntity(reportDTO));
+            User reportedUser = optionalReportedUser.get();
+            reportedUser.setReportNumber(reportedUser.getReportNumber() + 1);
+            userRepository.save(reportedUser);
+        } else {
+            throw new RuntimeException("User not found. Report not registered");
+        }
     }
 
     public void reportBorrower(ReportDTO reportDTO) {
-//        Report report = reportTransformer.toEntity(reportDTO);
-//        User borrower = report.getReservation().getParkingPlace().getUser();
-//        borrower.getReports().add(report);
-//        userRepository.save(borrower);
+        Optional<User> optionalReportedUser = userRepository.findById(reportDTO.getReservation().getParkingPlace()
+                .getUser().getId());
+        if (optionalReportedUser.isPresent()) {
+            Report report = new Report();
+            report.setReservation(report.getReservation());
+            report.setDescription(reportDTO.getDescription());
+            reportRepository.save(report);
+            User reportedUser = optionalReportedUser.get();
+            reportedUser.setReportNumber(reportedUser.getReportNumber() + 1);
+            userRepository.save(reportedUser);
+        } else {
+            throw new RuntimeException("User not found. Report not registered");
+        }
     }
 
     public List<ReservationDTO> getReservationsMade(int userId) {

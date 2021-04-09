@@ -42,4 +42,7 @@ public class User {
 
     @Column(name = "is_blocked")
     private Boolean isBlocked;
+
+    @Column(name = "report_number")
+    private Integer reportNumber;
 }

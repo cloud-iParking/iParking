@@ -19,5 +19,6 @@ public class UserDTO {
     private String carNumber;
     private Boolean isAdmin;
     private Boolean isBlocked;
+    private Integer reportNumber;
 
 }

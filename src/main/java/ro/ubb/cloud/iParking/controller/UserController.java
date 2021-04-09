@@ -42,9 +42,9 @@ public class UserController {
     }
 
     @PostMapping("/reportLoaner")
-    public ResponseEntity<UserDTO> reportLoaner(@RequestBody ReportDTO report) {
+    public ResponseEntity<UserDTO> reportLoaner(@RequestBody ReportDTO reportDTO) {
         try {
-            userService.reportLoaner(report);
+            userService.reportLoaner(reportDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
