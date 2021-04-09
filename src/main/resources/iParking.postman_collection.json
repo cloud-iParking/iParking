@@ -1,73 +1,156 @@
 {
-  "info": {
-    "_postman_id": "edf04baf-f815-4e80-b0ed-2353fd336dcb",
-    "name": "iParking",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Add User",
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {}
-      },
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"lastName\" : \"\",\r\n    \"firstName\" : \"\",\r\n    \"email\" : \"\",\r\n    \"phone\" : \"\",\r\n    \"username\" : \"\",\r\n    \"password\" : \"\",\r\n    \"carNumber\" : \"\",\r\n    \"isAdmin\" : false,\r\n    \"isBlocked\" : false\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:8080/user/add",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "user",
-            "add"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true,
-        "disabledSystemHeaders": {}
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\" : \"\",\r\n    \"password\" : \"\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:8080/login",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "login"
-          ]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "750a1544-bd22-4a51-aabf-036916bbcc78",
+		"name": "iParking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add User",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"lastName\": \"Manole\",\r\n            \"firstName\": \"Alex\",\r\n            \"email\": \"alex_mm@yahoo.com\",\r\n            \"phone\": \"0758946363\",\r\n            \"username\": \"elton\",\r\n            \"password\": \"\",\r\n            \"carNumber\": null,\r\n            \"isAdmin\": false,\r\n            \"isBlocked\": false,\r\n            \"reportNumber\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"\",\r\n    \"password\" : \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservations made",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Not nice person\",\r\n    \"reservation\": {\r\n        \"id\": 1,\r\n        \"isActive\": false,\r\n        \"timestamp\": \"2021-02-02T16:00:00.000+00:00\",\r\n        \"parkingPlace\": {\r\n            \"id\": 1,\r\n            \"availableFrom\": \"2021-02-02T08:00:00.000+00:00\",\r\n            \"availableUntil\": \"2021-02-02T16:00:00.000+00:00\",\r\n            \"isFree\": true,\r\n            \"street\": {\r\n                \"id\": 1,\r\n                \"name\": \"Mehedinti\",\r\n                \"district\": {\r\n                    \"id\": 1,\r\n                    \"name\": \"Zorilor\"\r\n                }\r\n            },\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"lastName\": \"Pop\",\r\n                \"firstName\": \"Ion\",\r\n                \"email\": \"pop.ion@yahoo.com\",\r\n                \"phone\": \"0740055687\",\r\n                \"username\": \"popion\",\r\n                \"password\": \"\",\r\n                \"carNumber\": \"CJ23AAA\",\r\n                \"isAdmin\": true,\r\n                \"isBlocked\": false,\r\n                \"reportNumber\": 0\r\n            },\r\n            \"parkingPlaceNumber\": 256\r\n        },\r\n        \"loaner\": {\r\n            \"id\": 2,\r\n            \"lastName\": \"Moldovean\",\r\n            \"firstName\": \"Maria\",\r\n            \"email\": \"moldovean_maria@yahoo.com\",\r\n            \"phone\": \"0758946363\",\r\n            \"username\": \"mariamoldo\",\r\n            \"password\": \"\",\r\n            \"carNumber\": null,\r\n            \"isAdmin\": false,\r\n            \"isBlocked\": false,\r\n            \"reportNumber\": 0\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/reportLoaner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"reportLoaner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservations received",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/1/reservations/received",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"1",
+						"reservations",
+						"received"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3Bpb24iLCJleHAiOjE2MTgwMTc5NTYsImlhdCI6MTYxNzk5OTk1Nn0.XYrGKcuf0JW5qfek9ESIeep1lkuZaWdEkFi8vAQWSptmjjB27AdCle5JiLKRw4cfVduuzqMm2KUIwWRAmIEI0w",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
 }
