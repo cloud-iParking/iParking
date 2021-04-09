@@ -16,8 +16,8 @@ public class DistrictService {
     private DistrictTransformer districtTransformer;
 
     public District retrieveOrCreateDistrict(DistrictDTO districtDTO) {
-        if (districtDTO.getId() != null) {
-            return districtRepository.findById(districtDTO.getId()).orElseThrow(() -> new RuntimeException("No such district."));
+        if (districtDTO != null && districtDTO.getName() != null && !districtDTO.getName().equals("")) {
+            return districtRepository.findByName(districtDTO.getName()).orElseThrow(() -> new RuntimeException("No such district."));
         } else {
             return districtRepository.save(districtTransformer.toEntity(districtDTO));
         }

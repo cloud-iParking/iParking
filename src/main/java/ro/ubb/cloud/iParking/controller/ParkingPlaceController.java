@@ -72,8 +72,8 @@ public class ParkingPlaceController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteParkingPlace(@PathVariable Integer id) {
+    @DeleteMapping("/")
+    public ResponseEntity<Void> deleteParkingPlace(@RequestParam Integer id) {
         try {
             parkingPlaceService.deleteParkingPlace(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

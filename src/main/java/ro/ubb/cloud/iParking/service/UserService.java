@@ -39,8 +39,8 @@ public class UserService {
     }
 
     public User retrieveOrCreateUser(UserDTO userDTO) {
-        if (userDTO.getId() != null) {
-            return userRepository.findById(userDTO.getId()).orElseThrow(() -> new RuntimeException("No such user."));
+        if (userDTO != null && userDTO.getUsername() != null && !userDTO.getUsername().equals("")) {
+            return userRepository.findByUsername(userDTO.getUsername()).orElseThrow(() -> new RuntimeException("No such user."));
         } else {
             return userRepository.save(userTransformer.toEntity(userDTO));
         }

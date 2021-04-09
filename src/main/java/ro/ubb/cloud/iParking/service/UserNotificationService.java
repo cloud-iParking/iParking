@@ -1,18 +1,12 @@
 package ro.ubb.cloud.iParking.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ro.ubb.cloud.iParking.model.dto.ParkingPlaceDTO;
-import ro.ubb.cloud.iParking.model.dto.UserNotificationDTO;
 import ro.ubb.cloud.iParking.model.entities.ParkingPlace;
 import ro.ubb.cloud.iParking.model.entities.User;
 import ro.ubb.cloud.iParking.repo.LoginRepository;
 import ro.ubb.cloud.iParking.repo.ParkingPlaceRepository;
-import ro.ubb.cloud.iParking.repo.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

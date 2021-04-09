@@ -18,8 +18,8 @@ public class StreetService {
     private DistrictService districtService;
 
     public Street retrieveOrCreateStreet(StreetDTO streetDTO) {
-        if (streetDTO.getId() != null) {
-            return streetRepository.findById(streetDTO.getId()).orElseThrow(() -> new RuntimeException("No such street."));
+        if (streetDTO != null && streetDTO.getName() != null && !streetDTO.getName().equals("")) {
+            return streetRepository.findAllByName(streetDTO.getName()).get(0);
         } else {
             Street street = streetTransformer.toEntity(streetDTO);
             street.setDistrict(districtService.retrieveOrCreateDistrict(streetDTO.getDistrict()));
