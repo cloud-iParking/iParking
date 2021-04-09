@@ -49,6 +49,15 @@ public class ParkingPlaceController {
         }
     }
 
+    @GetMapping("/checkAvailability/{id}")
+    public ResponseEntity<Boolean> checkAvailability(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(parkingPlaceService.checkAvailability(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<ParkingPlaceDTO> addNewParkingPlace(@RequestBody ParkingPlaceDTO parkingPlaceDTO) {
         try {
@@ -67,6 +76,15 @@ public class ParkingPlaceController {
             } else {
                 return new ResponseEntity<>(parkingPlaceService.addNewParkingPlace(parkingPlaceDTO), HttpStatus.OK);
             }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    @PutMapping("/changeStatus/{id}")
+    public ResponseEntity<ParkingPlaceDTO> changeParkingPlaceStatus(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(parkingPlaceService.changeParkingPlaceStatus(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
