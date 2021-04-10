@@ -81,10 +81,10 @@ public class ParkingPlaceController {
         }
     }
 
-    @PutMapping("/changeStatus/{id}")
-    public ResponseEntity<ParkingPlaceDTO> changeParkingPlaceStatus(@PathVariable Integer id) {
+    @PutMapping("/changeStatus/")
+    public ResponseEntity<ParkingPlaceDTO> changeParkingPlaceStatus(@RequestBody ParkingPlaceDTO parkingPlaceDTO) {
         try {
-            return new ResponseEntity<>(parkingPlaceService.changeParkingPlaceStatus(id), HttpStatus.OK);
+            return new ResponseEntity<>(parkingPlaceService.changeParkingPlaceStatus(parkingPlaceDTO.getId()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
