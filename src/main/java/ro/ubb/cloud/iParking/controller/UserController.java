@@ -80,9 +80,9 @@ public class UserController {
     }
 
     @PutMapping("/block")
-    public ResponseEntity<UserDTO> blockUser(@RequestParam int id) {
+    public ResponseEntity<UserDTO> blockUser(@RequestBody UserDTO userDTO) {
         try {
-            userService.blockUser(id);
+            userService.blockUser(userDTO.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

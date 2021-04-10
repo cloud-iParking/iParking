@@ -129,7 +129,7 @@ public class UserService {
 
         if (optionalUser.isPresent()) {
             User userToBeSaved = optionalUser.get();
-            userToBeSaved.setIsBlocked(Boolean.TRUE);
+            userToBeSaved.setIsBlocked(!userToBeSaved.getIsBlocked());
 
             userRepository.save(userToBeSaved);
         } else {
