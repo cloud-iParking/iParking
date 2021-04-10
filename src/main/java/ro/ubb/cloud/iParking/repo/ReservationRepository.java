@@ -15,4 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query(value = "SELECT * FROM iparking.reservation WHERE parking_place_id = (SELECT id FROM parking_place WHERE user_id = 1)", nativeQuery = true)
     List<Reservation> getAllReservationsReceivedByUserId(Integer id);
+
 }

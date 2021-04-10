@@ -61,8 +61,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/reservations/made")
-    public ResponseEntity<List<ReservationDTO>> getReservationsMade(@PathVariable(name = "id") int id) {
+    @GetMapping("/reservations/made")
+    public ResponseEntity<List<ReservationDTO>> getReservationsMade(@RequestParam int id) {
         try {
             return ResponseEntity.ok(userService.getReservationsMade(id));
         } catch (Exception e) {
@@ -70,12 +70,22 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/reservations/received")
-    public ResponseEntity<List<ReservationDTO>> getReservationsReceived(@PathVariable(name = "id") int id) {
+    @GetMapping("/reservations/received")
+    public ResponseEntity<List<ReservationDTO>> getReservationsReceived(@RequestParam int id) {
         try {
             return ResponseEntity.ok(userService.getReservationsReceived(id));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/block")
+    public ResponseEntity<UserDTO> blockUser(@RequestParam int id) {
+        try {
+            userService.blockUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

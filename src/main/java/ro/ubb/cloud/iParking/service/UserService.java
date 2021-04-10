@@ -85,7 +85,7 @@ public class UserService {
                 .getUser().getId());
         if (optionalReportedUser.isPresent()) {
             Report report = new Report();
-            report.setReservation(report.getReservation());
+            report.setReservation(reservationTransformer.toEntity(reportDTO.getReservation()));
             report.setDescription(reportDTO.getDescription());
             reportRepository.save(report);
             User reportedUser = optionalReportedUser.get();
@@ -112,11 +112,28 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             ArrayList<ReservationDTO> reservations = new ArrayList<>();
-            for (Reservation reservation : reservationRepository.getAllReservationsReceivedByUserId(userId)) {
-                reservations.add(reservationTransformer.toDTO(reservation));
+            List<Reservation> reservationList = reservationRepository.findAll();
+            for (Reservation reservation : reservationList) {
+
+                if(reservation.getParkingPlace().getUser().getId().equals(userId)) {
+                    reservations.add(reservationTransformer.toDTO(reservation));
+                }
             }
             return reservations;
         }
         return new ArrayList<>();
+    }
+
+    public void blockUser(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User userToBeSaved = optionalUser.get();
+            userToBeSaved.setIsBlocked(Boolean.TRUE);
+
+            userRepository.save(userToBeSaved);
+        } else {
+            throw new RuntimeException("User not found.");
+        }
     }
 }
