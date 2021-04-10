@@ -2,11 +2,20 @@ package ro.ubb.cloud.iParking.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ro.ubb.cloud.iParking.model.dto.ReportDTO;
+import ro.ubb.cloud.iParking.model.dto.ReservationDTO;
 import ro.ubb.cloud.iParking.model.dto.UserDTO;
+import ro.ubb.cloud.iParking.model.entities.Report;
+import ro.ubb.cloud.iParking.model.entities.Reservation;
 import ro.ubb.cloud.iParking.model.entities.User;
+import ro.ubb.cloud.iParking.model.transformers.impl.ReportTransformer;
+import ro.ubb.cloud.iParking.model.transformers.impl.ReservationTransformer;
 import ro.ubb.cloud.iParking.model.transformers.impl.UserTransformer;
+import ro.ubb.cloud.iParking.repo.ReportRepository;
+import ro.ubb.cloud.iParking.repo.ReservationRepository;
 import ro.ubb.cloud.iParking.repo.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +28,18 @@ public class UserService {
 
     @Autowired
     private UserTransformer userTransformer;
+
+    @Autowired
+    private ReportTransformer reportTransformer;
+
+    @Autowired
+    private ReportRepository reportRepository;
+
+    @Autowired
+    private ReservationTransformer reservationTransformer;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     public List<UserDTO> getAllUsers() {
         List<User> userList = userRepository.findAll();
@@ -44,5 +65,58 @@ public class UserService {
         } else {
             return userRepository.save(userTransformer.toEntity(userDTO));
         }
+    }
+
+    public void reportLoaner(ReportDTO reportDTO) {
+
+        Optional<User> optionalReportedUser = userRepository.findById(reportDTO.getReservation().getLoaner().getId());
+        if (optionalReportedUser.isPresent()) {
+            reportRepository.save(reportTransformer.toEntity(reportDTO));
+            User reportedUser = optionalReportedUser.get();
+            reportedUser.setReportNumber(reportedUser.getReportNumber() + 1);
+            userRepository.save(reportedUser);
+        } else {
+            throw new RuntimeException("User not found. Report not registered");
+        }
+    }
+
+    public void reportBorrower(ReportDTO reportDTO) {
+        Optional<User> optionalReportedUser = userRepository.findById(reportDTO.getReservation().getParkingPlace()
+                .getUser().getId());
+        if (optionalReportedUser.isPresent()) {
+            Report report = new Report();
+            report.setReservation(report.getReservation());
+            report.setDescription(reportDTO.getDescription());
+            reportRepository.save(report);
+            User reportedUser = optionalReportedUser.get();
+            reportedUser.setReportNumber(reportedUser.getReportNumber() + 1);
+            userRepository.save(reportedUser);
+        } else {
+            throw new RuntimeException("User not found. Report not registered");
+        }
+    }
+
+    public List<ReservationDTO> getReservationsMade(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            ArrayList<ReservationDTO> reservations = new ArrayList<>();
+            for (Reservation reservation : reservationRepository.getAllReservationsMadeByUserId(userId)) {
+                reservations.add(reservationTransformer.toDTO(reservation));
+            }
+            return reservations;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<ReservationDTO> getReservationsReceived(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            ArrayList<ReservationDTO> reservations = new ArrayList<>();
+            for (Reservation reservation : reservationRepository.getAllReservationsReceivedByUserId(userId)) {
+                reservations.add(reservationTransformer.toDTO(reservation));
+            }
+            return reservations;
+        }
+        return new ArrayList<>();
     }
 }
