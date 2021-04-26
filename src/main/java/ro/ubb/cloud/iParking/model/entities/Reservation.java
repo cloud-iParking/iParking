@@ -1,13 +1,15 @@
 package ro.ubb.cloud.iParking.model.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reservation")
 public class Reservation {
